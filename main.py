@@ -4,12 +4,13 @@ import time
 import sys
 import os
 from selenium.webdriver.common.keys import Keys
-
+from pathlib import Path
+home = str(Path.home())
 class Instagram:
 
 	def __init__(self,username, password):
 		
-		self.driver = webdriver.Chrome("/Users/chitr/chromedriver.exe")
+		self.driver = webdriver.Chrome(home+"/chromedriver.exe")
 		self.username = username
 		self.password = password
 		self.numoff = 0
@@ -33,6 +34,15 @@ class Instagram:
 			"/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div[4]/button/div"
 			).click()
 		time.sleep(2)
+
+		try:
+			self.driver.find_element_by_xpath(
+			"/html/body/div[1]/section/main/article/div[2]/div[1]/div/form/div[7]/p"
+			)
+			print("Wrong username password")
+			exit(0)
+		except Exception:
+			print("login successful")
 
 	def navigate(self, username):
 		
@@ -80,21 +90,30 @@ class Instagram:
 
 	def check_new_unfollowers(self, username):
 		try:
-			prev = pd.read_csv("Instagram_Followers_Data\\"+username+'.csv').Name.tolist()
+			prev = pd.read_csv(home+"/Instagram_Followers_Data\\"+username+'.csv').Name.tolist()
 		except Exception:
-			print("Run -r first")
+			print("Run '... -r <username> <password>' first")
 			exit(0)
 		names = self.getFollowers(username)
+		updateList(names)
 		unfoll = []
 		for a in prev:
 			if not self.search(names, a):
 				unfoll.append(a)
 		return unfoll
 
+	def updateList(NList):
+		prev = pd.read_csv(home+"/Instagram_Followers_Data\\"+username+'.csv').Name.tolist()
+		for a in nList:
+			if not self.search(prev, a)
+				prev.append(a)
+		df.to_csv(home+"/Instagram_Followers_Data\\"+username+ '.csv', index=False, encoding='utf-8')
+
+
 def chkdir():
 
 	try:
-		os.mkdir("Instagram_Followers_Data")
+		os.mkdir(home+"/Instagram_Followers_Data")
 	except FileExistsError:
 		pass
 
@@ -104,7 +123,7 @@ def refreshList(username,password):
 	name = bot.getFollowers(username)
 	df = pd.DataFrame({'Name':name}) 
 	chkdir()
-	df.to_csv("Instagram_Followers_Data\\"+username+ '.csv', index=False, encoding='utf-8')
+	df.to_csv(home+"/Instagram_Followers_Data\\"+username+ '.csv', index=False, encoding='utf-8')
 
 def getFollowers(username,password):
 	bot = Instagram(username, password)
@@ -121,10 +140,13 @@ def getUnfollowers(username,password):
 	bot.logIn()
 	unfollow = bot.check_new_unfollowers(username)
 	df = pd.DataFrame({'Name':unfollow}) 
-	df.to_csv("Instagram_Followers_Data\\"+'New_Unfollowers.csv', index=False, encoding='utf-8')
+	df.to_csv(home+"/Instagram_Followers_Data\\"+'New_Unfollowers.csv', index=False, encoding='utf-8')
+	if len(unfollow)==0:
+		print("No new Unfollower")
+		exit(0)
 	print("-----------------------------------------------------------------------------------------------\n\n\nYour Unfollowers Are\n\n\n-----------------------------------------------------------------------------------------------")
 	for a in unfollow:
-		print(a)
+		print(a[26:])
 	print("-----------------------------------------------------------------------------------------------\n\n\nList End Here\n\n\n-----------------------------------------------------------------------------------------------")
 
 
