@@ -10,7 +10,7 @@ class Instagram:
 
 	def __init__(self,username, password):
 		
-		self.driver = webdriver.Chrome(home+"/chromedriver.exe")
+		self.driver = webdriver.Chrome("chromedriver.exe")
 		self.username = username
 		self.password = password
 		self.numoff = 0
@@ -105,7 +105,7 @@ class Instagram:
 	def updateList(NList):
 		prev = pd.read_csv(home+"/Instagram_Followers_Data\\"+username+'.csv').Name.tolist()
 		for a in nList:
-			if not self.search(prev, a)
+			if not self.search(prev, a):
 				prev.append(a)
 		df.to_csv(home+"/Instagram_Followers_Data\\"+username+ '.csv', index=False, encoding='utf-8')
 
