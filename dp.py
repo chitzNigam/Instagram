@@ -2,9 +2,10 @@ import selenium
 import requests
 import json
 import io
+import webbrowser
 from PIL import Image
 from bs4 import BeautifulSoup
-from saveFiles import saveFile
+# from saveFiles import saveFile
 class DP:
 	def getImage(username):
 		if username[0] == "@":
@@ -23,4 +24,5 @@ class DP:
 		file.write(response.content)
 		return username+".jpg"
 
-print(saveFiles.saveFile.saveImage("www.google.com","test"))
+im = Image.open("c:Users\chitr\OneDrive\Desktop\lol.png")
+webbrowser.open("c:Users\chitr\OneDrive\Desktop\lol.png")
