@@ -7,7 +7,7 @@ from PIL import Image
 from bs4 import BeautifulSoup
 # from saveFiles import saveFile
 class DP:
-	def getImage(username):
+	def getImage(self,username):
 		if username[0] == "@":
 			username = username[1:]
 		response = requests.get("https://www.instagram.com/"+username)
@@ -24,5 +24,4 @@ class DP:
 		file.write(response.content)
 		return username+".jpg"
 
-im = Image.open("c:Users\chitr\OneDrive\Desktop\lol.png")
-webbrowser.open("c:Users\chitr\OneDrive\Desktop\lol.png")
+DP().getImage(username = "blackboards_photography")

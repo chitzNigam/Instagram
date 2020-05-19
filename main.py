@@ -95,18 +95,19 @@ class Instagram:
 			print("Run '... -r <username> <password>' first")
 			exit(0)
 		names = self.getFollowers(username)
-		self.updateList(names)
+		self.updateList(username,names)
 		unfoll = []
 		for a in prev:
 			if not self.search(names, a):
 				unfoll.append(a)
 		return unfoll
 
-	def updateList(self,NList):
+	def updateList(self,username,nlist):
 		prev = pd.read_csv(home+"/Instagram_Followers_Data\\"+username+'.csv').Name.tolist()
-		for a in nList:
+		for a in nlist:
 			if not self.search(prev, a):
 				prev.append(a)
+		df = pd.DataFrame({'Name':prev}) 
 		df.to_csv(home+"/Instagram_Followers_Data\\"+username+ '.csv', index=False, encoding='utf-8')
 
 
